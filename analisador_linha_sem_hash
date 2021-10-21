@@ -5,22 +5,19 @@ class AnalisadorLinha
         @content = content
         @quant = 0
         @word = []
-        @wordAux = {}
     end
 
     def generator 
 
-        @content.each{ |i|  @wordAux[i] = @content.count(i) }
+        @content.each{ |i|  
+          if @content.count(i) > @quant 
+            @quant = @content.count(i)
+          end   
+        }      
 
-        @wordAux.each{ |k,v|  
-            if v > @quant 
-                @quant = v
-            end  
-        }
-
-        @wordAux.each{ |k,v| 
-            if v == @quant 
-                @word.push(k)
+        @content.uniq.each{ |i| 
+            if @content.count(i) == @quant 
+                @word.push(i)
             end   
         }
 
@@ -28,9 +25,11 @@ class AnalisadorLinha
 
     def to_str
         return "
+
 Linha : #{@line}  
 Palavra : #{@word} 
 Quantidade : #{@quant} 
+
         "
         # Array : #{@content}  
         # Pode adicionar isso no print 
@@ -51,9 +50,3 @@ File.open('words.txt').each do |line|
     line_num += 1
 
 end
-
-
-
-
-
-
